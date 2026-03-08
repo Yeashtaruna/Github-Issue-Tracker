@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login page</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main class="login-wrapper">
+        <section class="login-card">
+            <img src="assets/github-logo.png" class="login-logo">
+            <h1>GitHub Issues Tracker</h1>
+            <p class="login-text">Sign in to manage your issues</p>
+
+            <div class="field-group">
+                <label for="username">Username</label>
+                <input id="username" type="text" placeholder="Enter Username" >
+                <p class="field-hint">Default: admin</p>
+            </div>
+
+            <div class="field-group">
+                <label for="password">Password</label>
+                <input id="password" type="password" placeholder="Enter Password" >
+                <p class="field-hint">Default: admin123</p>
+            </div>
+
+            <button id="loginButton" >Sign In</button>
+
+            <div class="or-divider"><span>OR</span></div>
+
+                <p class="demo-title">Demo Credentials:</p>
+                <div class="demo-box">
+                <p><strong>Username:</strong> admin</p>
+                <p><strong>Password:</strong> admin123</p>
+            </div>
+        </section>
+    </main>
+
+</body>
+</html>
