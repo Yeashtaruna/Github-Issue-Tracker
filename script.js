@@ -14,6 +14,7 @@ function login() {
 
 const API = "https://phi-lab-server.vercel.app/api/v1/lab/issues";
 const ISSUE_API = "https://phi-lab-server.vercel.app/api/v1/lab/issue";
+const SEARCH_API = "https://phi-lab-server.vercel.app/api/v1/lab/issues/search";
 function setActiveTab(type) {
 	const tabs = ["all", "open", "closed"];
 	tabs.forEach((tab) => {
@@ -365,7 +366,7 @@ async function searchIssue() {
 	setIssuesLoading(true);
 
 	try {
-		const res = await fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${encodeURIComponent(text)}`);
+		const res = await fetch(`${SEARCH_API}?q=${encodeURIComponent(text)}`);
 		const data = await res.json();
 		const searchedIssues = data.data || [];
 		updateStats(searchedIssues, activeType);
