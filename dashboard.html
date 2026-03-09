@@ -26,7 +26,7 @@
         </div>  
     </header>
 
-    <main class="dashboard-content w-[80%] mx-auto">
+    <main class="dashboard-content mx-auto">
         <section class="filter-panel">
             <div class="filter-tabs">
                 <button onclick="loadIssues('all')" id="allTab" class="filter-tab active">All</button>
@@ -83,9 +83,10 @@
             <div id="modalDetails" class="issue-details-list"></div>
 
             <div class="modal-footer">
-                <button class="modal-close-action" aria-label="Close issue details">Close</button>
+                <button class="modal-close-action" aria-label="Close issue details"  onclick="closeModal()">Close</button>
             </div>
         </div>
     </div>
+    <script src="script.js"></script>
 </body>
 </html>
