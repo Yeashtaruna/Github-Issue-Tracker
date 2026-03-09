@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Issues Tracker</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="bg-shape bg-shape-top"></div>
+    <div class="bg-shape bg-shape-bottom"></div>
+
+    <header class="top-bar">
+        <div class="nav-brand">
+            <img src="assets/github-logo.png" alt="GitHub logo" class="nav-brand-icon">
+            <h2>GitHub Issues Tracker</h2>
+        </div>
+
+        <div class="nav-actions">
+            <div class="nav-search-box">
+                <input id="searchInput" placeholder="Search issues..." onkeydown="if(event.key==='Enter') searchIssue()">
+            </div>
+            <button class="nav-new-issue" type="button">+ New Issue</button>
+        </div>  
+    </header>
+
+    <main class="dashboard-content w-[80%] mx-auto">
+        <section class="filter-panel">
+            <div class="filter-tabs">
+                <button onclick="loadIssues('all')" id="allTab" class="filter-tab active">All</button>
+                <button onclick="loadIssues('open')" id="openTab" class="filter-tab">Open</button>
+                <button onclick="loadIssues('closed')" id="closedTab" class="filter-tab">Closed</button>
+            </div>
+        </section>
+
+        <section class="summary-panel">
+            <div class="summary-left">
+                <img src="assets/Aperture.png" alt="" width="50" height="50">
+                <div>
+                <h3 id="summaryTotal" class="font-bold">0 Issues</h3>
+                <p>Track and manage your project issues</p>
+            </div>
+            </div>
+            <div class="summary-right">
+                <span class="summary-dot open"></span>
+                <span id="summaryOpen">Open</span>
+                <span class="summary-dot closed"></span>
+                <span id="summaryClosed">Closed</span>
+            </div>
+        </section>
+
+        <div id="loader" class="loading-text">Syncing issues...</div>
+        <section id="issueContainer" class="issues-grid"></section>
+        <p id="emptyState" class="empty-message">No issues found for this view.</p>
+    </main>
+
+    <div id="modal" class="popup" role="dialog" aria-modal="true" aria-label="Issue details">
+        <div class="popup-content issue-modal">
+            <h2 id="modalTitle"></h2>
+
+            <div class="modal-meta-row">
+                <span id="modalStatePill" class="modal-state-pill">Opened</span>
+                <span id="modalMetaText" class="modal-meta-text"></span>
+            </div>
+
+            <div id="modalTags" class="modal-tags"></div>
+
+            <p id="modalDescription" class="modal-description"></p>
+
+            <div class="modal-info-box">
+                <div class="modal-info-item">
+                    <span class="modal-info-label">Assignee:</span>
+                    <strong id="modalAssignee" class="modal-info-value">Unknown</strong>
+                </div>
+                <div class="modal-info-item">
+                    <span class="modal-info-label">Priority:</span>
+                    <span id="modalPriorityBadge" class="priority-pill">n/a</span>
+                </div>
+            </div>
+
+            <div id="modalDetails" class="issue-details-list"></div>
+
+            <div class="modal-footer">
+                <button class="modal-close-action" aria-label="Close issue details">Close</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
