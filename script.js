@@ -24,10 +24,17 @@ function setActiveTab(type) {
 	});
 }
 
-function updateStats(allIssues) {
+function getActiveTabType() {
+	const tabs = ["all", "open", "closed"];
+	const activeTab = tabs.find((tab) => document.getElementById(`${tab}Tab`)?.classList.contains("active"));
+	return activeTab || "all";
+}
+
+function updateStats(allIssues, activeType = "all") {
 	const all = allIssues.length;
 	const open = allIssues.filter((issue) => issue.status === "open").length;
 	const closed = allIssues.filter((issue) => issue.status === "closed").length;
+	const activeCount = activeType === "open" ? open : activeType === "closed" ? closed : all;
 
 	const statAll = document.getElementById("statAll");
 	const statOpen = document.getElementById("statOpen");
@@ -39,21 +46,45 @@ function updateStats(allIssues) {
 	if (statAll) statAll.innerText = all;
 	if (statOpen) statOpen.innerText = open;
 	if (statClosed) statClosed.innerText = closed;
-	if (summaryTotal) summaryTotal.innerText = `${all} Issues`;
+	if (summaryTotal) summaryTotal.innerText = `${activeCount} Issues`;
 	if (summaryOpen) summaryOpen.innerText = "Open";
 	if (summaryClosed) summaryClosed.innerText = "Closed";
 }
 
-async function loadIssues(type = "all") {
+function setIssuesLoading(isLoading) {
 	const loader = document.getElementById("loader");
-	if (loader) loader.style.display = "block";
+	const container = document.getElementById("issueContainer");
+	const emptyState = document.getElementById("emptyState");
+	const statAll = document.getElementById("statAll");
+	const statOpen = document.getElementById("statOpen");
+	const statClosed = document.getElementById("statClosed");
+	const summaryTotal = document.getElementById("summaryTotal");
+	const summaryOpen = document.getElementById("summaryOpen");
+	const summaryClosed = document.getElementById("summaryClosed");
+
+	if (loader) loader.style.display = isLoading ? "flex" : "none";
+	if (container) container.style.display = isLoading ? "none" : "grid";
+	if (isLoading && emptyState) emptyState.style.display = "none";
+
+	if (isLoading) {
+		if (statAll) statAll.innerText = "0";
+		if (statOpen) statOpen.innerText = "0";
+		if (statClosed) statClosed.innerText = "0";
+		if (summaryTotal) summaryTotal.innerText = "0 Issues";
+		if (summaryOpen) summaryOpen.innerText = "Open";
+		if (summaryClosed) summaryClosed.innerText = "Closed";
+	}
+}
+
+async function loadIssues(type = "all") {
+	setIssuesLoading(true);
 
 	try {
 		const res = await fetch(API);
 		const data = await res.json();
 
 		const allIssues = data.data || [];
-		updateStats(allIssues);
+		updateStats(allIssues, type);
 
 		let issues = allIssues;
 		if (type === "open") issues = allIssues.filter((issue) => issue.status === "open");
@@ -65,7 +96,7 @@ async function loadIssues(type = "all") {
 		console.error(error);
 		displayIssues([]);
 	} finally {
-		if (loader) loader.style.display = "none";
+		setIssuesLoading(false);
 	}
 }
 
@@ -324,24 +355,32 @@ function closeModal() {
 async function searchIssue() {
 	const input = document.getElementById("searchInput");
 	const text = input?.value?.trim() || "";
+	const activeType = getActiveTabType();
 
 	if (!text) {
-		loadIssues("all");
+		loadIssues(activeType);
 		return;
 	}
 
-	const loader = document.getElementById("loader");
-	if (loader) loader.style.display = "block";
+	setIssuesLoading(true);
 
 	try {
 		const res = await fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${encodeURIComponent(text)}`);
 		const data = await res.json();
-		displayIssues(data.data || []);
+		const searchedIssues = data.data || [];
+		updateStats(searchedIssues, activeType);
+
+		let filteredIssues = searchedIssues;
+		if (activeType === "open") filteredIssues = searchedIssues.filter((issue) => issue.status === "open");
+		if (activeType === "closed") filteredIssues = searchedIssues.filter((issue) => issue.status === "closed");
+
+		displayIssues(filteredIssues);
 	} catch (error) {
 		console.error(error);
+		updateStats([], activeType);
 		displayIssues([]);
 	} finally {
-		if (loader) loader.style.display = "none";
+		setIssuesLoading(false);
 	}
 }
 

@@ -549,10 +549,18 @@ label {
 	background: #9a55eb;
 }
 
-.loading-text {
+.loading-state {
 	display: none;
-	color: #67748e;
-	padding: 6px 2px;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	padding: 22px 12px;
+	color: #586785;
+	font-size: 16px;
+	font-weight: 600;
+	background: #ffffff;
+	border: 1px solid #dfe7f5;
+	border-radius: 8px;
 }
 
 .issues-grid {
@@ -572,7 +580,6 @@ label {
 	background: #ffffff;
 	width: 100%;
 	max-width: 100%;
-	min-height: 256.5px;
 	height: auto;
 	padding: 10px;
 	cursor: pointer;

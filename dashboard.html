@@ -51,7 +51,10 @@
             </div>
         </section>
 
-        <div id="loader" class="loading-text">Syncing issues...</div>
+        <div id="loader" class="loading-state" aria-live="polite">
+            <span class="loading loading-spinner loading-lg text-primary" aria-hidden="true"></span>
+            <span>Loading issues...</span>
+        </div>
         <section id="issueContainer" class="issues-grid"></section>
         <p id="emptyState" class="empty-message">No issues found for this view.</p>
     </main>
