@@ -8,7 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="login-page">
     <main class="login-wrapper">
         <section class="login-card">
             <img src="assets/github-logo.png" class="login-logo">
@@ -27,7 +27,7 @@
                 <p class="field-hint">Default: admin123</p>
             </div>
 
-            <button id="loginButton" >Sign In</button>
+            <button id="loginButton" onclick="login()">Sign In</button>
 
             <div class="or-divider"><span>OR</span></div>
 
@@ -38,6 +38,6 @@
             </div>
         </section>
     </main>
-
+    <script src="script.js"></script>
 </body>
 </html>
